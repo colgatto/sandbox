@@ -17,6 +17,9 @@ function draw() {
 		armies[army].update();
 	}
 	for (const army in armies) {
+		armies[army].updatePosition();
+	}
+	for (const army in armies) {
 		armies[army].drawPath();
 	}
 	for (const army in armies) {

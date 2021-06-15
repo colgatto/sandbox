@@ -19,18 +19,17 @@ class Bot{
 		
 		this.speed = opt.speed || 1;
 		
-		this.angle = opt.angle || random(365);
-
 		this.color = opt.color || random(['yellow','purple','cyan','blue','green']);
 		this.r = opt.r || 10;
 		this.d = this.r * 2;
 
 		this.drawPathOn = opt.drawPath || false;
 		this.path = [];
-
+		this.addNewPath = false;
+		
 		this.defaultNearDist = opt.nearDist || 10;
 
-		this.velocity = p5.Vector.fromAngle(radians(this.angle));
+		this.velocity = p5.Vector.random2D();
 		this.velocity.mult(this.speed);
 
 	}
@@ -51,10 +50,14 @@ class Bot{
 		this.drawPathOn = on;
 	}*/
 
-	setDirection(angle) {
-		this.angle = angle;
-		this.velocity.setHeading(radians(this.angle));
-		//this.velocity.mult(this.speed);
+	setDirection(radians) {
+		this.velocity.setHeading(radians);
+		this.addNewPath = true;
+	}
+	
+	rotateDirection(angle) {
+		this.velocity.rotate(angle);
+		this.addNewPath = true;
 	}
 
 	draw(){
@@ -65,23 +68,29 @@ class Bot{
 	drawPath(){
 		if(this.drawPathOn){
 			push();
+
+			/**/
+			
 			noFill();
 			beginShape();
+			stroke(this.color);
 			for (let i = 0; i < this.path.length; i++) {
-				stroke(this.path[i].color);
 				vertex(...this.path[i].point);
 				//curveVertex(...this.path[i].point);
 			}
+			vertex(this.pos.x, this.pos.y);
 			endShape();
-			pop();
-			/*
-			push();
+			
+			/**
+			
 			for (let i = 0; i < this.path.length; i++) {
 				stroke(this.path[i].color);
 				point(...this.path[i].point);
 			}
+			
+			/**/
+
 			pop();
-			*/
 		}
 	}
 
@@ -99,11 +108,15 @@ class Bot{
 		if(bc){
 			this.onBoundary(bc);
 		}
-		
+
+	}
+
+	updatePosition(){
 		let newPos = p5.Vector.add(this.pos, this.velocity);
 
-		if(this.drawPathOn){
-			if(newPos.dist(this.prevPos) > this.r ){
+		if(this.drawPathOn && this.addNewPath){
+			this.addNewPath = false;
+			if(newPos.dist(this.prevPos) > 5 ){
 				this.path.push( { color: this.color, point: [ newPos.x, newPos.y ] } );
 				this.prevPos = newPos.copy();
 				if(this.path.length > 30) this.path.shift();
@@ -167,7 +180,7 @@ class Bot{
 	}
 
 	follow(b){
-		let an = degrees( Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) ) );
+		let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 		this.setDirection( an );
 	}
 

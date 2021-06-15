@@ -94,6 +94,10 @@ class Army{
 	update(){
 		this.doForAll('update');
 	}
+	
+	updatePosition(){
+		this.doForAll('updatePosition');
+	}
 
 
 }

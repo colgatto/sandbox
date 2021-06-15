@@ -10,23 +10,27 @@ const getFirst = (list, army) => {
 
 function collideOnBound(side){
 	if( side == this.boundary.UP ){
-		this.setDirection( 360 - this.angle );
+		this.velocity.y = -this.velocity.y;
 		this.pos.y = this.r + 1;
+		this.addNewPath = true;
 		return;
 	}
 	if( side == this.boundary.DOWN ){
-		this.setDirection( 360 - this.angle );
+		this.velocity.y = -this.velocity.y;
 		this.pos.y = H - this.r - 1;
+		this.addNewPath = true;
 		return;
 	}
 	if( side == this.boundary.LEFT ){
-		this.setDirection( 180 - this.angle );
+		this.velocity.x = -this.velocity.x;
 		this.pos.x = this.r + 1;
+		this.addNewPath = true;
 		return;
 	}
 	if( side == this.boundary.RIGHT ){
-		this.setDirection( 180 - this.angle );
+		this.velocity.x = -this.velocity.x;
 		this.pos.x = W - this.r - 1;
+		this.addNewPath = true;
 		return;
 	}
 }
@@ -54,7 +58,7 @@ const armies = {
 					this.color = color(166, 16, 30);
 				}else{
 					this.color = this.army.color;
-					//if(this.randCount % 100 == 0) this.velocity.rotate(random(-45, 45));//this.setDirection( this.angle + random(-30, 30) );
+					if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
 				}
 			},
 
@@ -65,8 +69,8 @@ const armies = {
 					entity.destroy();
 					return;
 				}
-				let an = degrees( Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) ) );
-				this.setDirection( an - 180 );
+				let an = Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) );
+				this.setDirection( an - Math.PI );
 				entity.setDirection( an );
 			},
 
@@ -94,26 +98,20 @@ const armies = {
 				if(n.length > 0){
 					let b = n[0].bot;
 					this.color = 'blue';
-					let an = degrees( Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) ) );
-					this.setDirection( an - 180 );
-					this.setSpeed(1.1);
+					let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
+					this.setDirection( an - Math.PI );
+					this.setSpeed(1.01);
 				}else{
 					this.color = this.army.color;
-					//if(this.randCount % 100 == 0) this.velocity.rotate(random(-45, 45));//this.setDirection( this.angle + random(-30, 30) );
-					//this.setSpeed(1);
+					if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
+					this.setSpeed(1);
 				}
 			},
 			
 			onCollision: function(entity){
-				if(entity.army.name == 'cacciatori'){
-					entity.setR(entity.r+2);
-					entity.setSpeed(entity.speed+0.01);
-					this.destroy();
-					return;
-				}
-				let an = degrees( Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) ) );
-				this.setDirection( an - 180 );
-				entity.setDirection( an );		
+				let an = Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) );
+				this.setDirection( an - Math.PI );
+				entity.setDirection( an );
 			},
 
 			onBoundary: collideOnBound
