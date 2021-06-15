@@ -5,5 +5,5 @@ const sandboxConfig = {
 	defaultBotSpeed: 1,
 	defaultBotPathType: 'line',
 	maxPathLength: 30,
-	minDistNewPath: 20
+	minDistNewPath: 5
 };
