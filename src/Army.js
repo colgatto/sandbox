@@ -8,6 +8,8 @@ class Army{
 		this.color = opt.color || 255;
 		this.count = opt.count || 1;
 		
+		this.speed = typeof opt.speed == 'undefined' ? sandboxConfig.defaultBotSpeed : opt.speed;
+
 		this.drawPathOn = opt.drawPath || false;
 		this.defaultNearDist = opt.nearDist || 10;
 		
@@ -30,7 +32,7 @@ class Army{
 	}
 
 	addBot(x=null,y=null){
-		let isRandom = x===null||y===null;
+		let isRandom = x===null || y===null;
 
 		const newPos = isRandom ? createVector(random(this.r, config.W - this.r),random(this.r, config.H - this.r)) : createVector(x, y);
 
@@ -54,6 +56,7 @@ class Army{
 			x: newPos.x,
 			y: newPos.y,
 			drawPath: this.drawPathOn,
+			speed: this.speed,
 			nearDist: this.defaultNearDist,
 			army: this
 		});

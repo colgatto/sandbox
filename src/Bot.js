@@ -16,9 +16,7 @@ class Bot{
 
 		this.pos = createVector(opt.x || width/2, opt.y || height/2);
 		this.prevPos = this.pos.copy();
-		
-		this.speed = opt.speed || sandboxConfig.defaultBotSpeed;
-		
+				
 		this.color = opt.color || random(sandboxConfig.defaultBotColors);
 		this.d = sandboxConfig.defaultBotSize;
 		this.r = this.d / 2;
@@ -34,8 +32,7 @@ class Bot{
 		this.defaultNearDist = opt.nearDist || sandboxConfig.defaultBotNearDist;
 
 		this.velocity = p5.Vector.random2D();
-		this.velocity.mult(this.speed);
-
+		this.setSpeed( typeof opt.speed == 'undefined' ? sandboxConfig.defaultBotSpeed : opt.speed );
 	}
 
 	setR(r){

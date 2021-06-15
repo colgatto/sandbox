@@ -1,5 +1,5 @@
 function mouseClicked() {
-	armies.p.addBot(mouseX, mouseY);
+	armies.cibo.addBot(mouseX, mouseY);
 }
 
 let engine_state = true;

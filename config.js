@@ -1,14 +1,10 @@
 const config = {
-	/**
-	W: Math.floor(window.innerWidth/1.5),
-	H: Math.floor(window.innerHeight/1.5),
-	/**/
 	W: window.innerWidth,
 	H: window.innerHeight,
-	/**/
 	cacciatori: {
 		name: 'cacciatori',
-		color: 'red',
+		color: '#ff0000',
+		alertColor: '#96101e',
 		size: 18,
 		count: 15,
 		nearDist: 22,
@@ -16,10 +12,18 @@ const config = {
 	},
 	prede: {
 		name: 'prede',
-		color: 'green',
+		color: '#00df00',
+		alertColor: '#d0df00',
 		size: 20,
 		count: 100,
 		nearDist: 25,
 		drawPath: true
+	},
+	cibo: {
+		name: 'cibo',
+		color: '#0000df',
+		size: 5,
+		count: 20,
+		speed: 0
 	}
 };

@@ -53,7 +53,7 @@ const armies = {
 				let n = this.getNearBot(config.prede.name);
 				if(n.length > 0){
 					this.follow(n[0].bot);
-					this.color = color(166, 16, 30);
+					this.color = config.cacciatori.alertColor;
 				}else{
 					this.color = this.army.color;
 					if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
@@ -69,7 +69,7 @@ const armies = {
 				}
 				let an = Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) );
 				this.setDirection( an - Math.PI );
-				entity.setDirection( an );
+				//entity.setDirection( an );
 			},
 
 			onBoundary: collideOnBound
@@ -95,7 +95,7 @@ const armies = {
 				let n = this.getNearBot(config.cacciatori.name);
 				if(n.length > 0){
 					let b = n[0].bot;
-					this.color = 'blue';
+					this.color = config.prede.alertColor;
 					let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 					this.setDirection( an - Math.PI );
 					this.setSpeed(1.1);
@@ -113,6 +113,17 @@ const armies = {
 			},
 
 			onBoundary: collideOnBound
+		}
+	}),
+
+	cibo: new Army({
+		name: config.cibo.name,
+		color: config.cibo.color,
+		size: config.cibo.size,
+		count: config.cibo.count,
+		speed: config.cibo.speed,
+		botEvents: {
+
 		}
 	})
 
