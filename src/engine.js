@@ -1,6 +1,4 @@
-let loopCounter = 0;
-let frameRatesList = [];
-let currentFrameRate = 0;
+const UI = new Ui(1,1,100,20);
 
 function setup() {
 	createCanvas(config.W, config.H);
@@ -30,17 +28,7 @@ function draw() {
 		armies[army].draw();
 	}
 
-	frameRatesList.push(Math.floor(frameRate()));
-	if(loopCounter % 20 == 0){
-		currentFrameRate = 0;
-		for (let i = 0; i < frameRatesList.length; i++) {
-			currentFrameRate += frameRatesList[i];
-		}
-		currentFrameRate = Math.floor(currentFrameRate/frameRatesList.length);
-		frameRatesList = [];
-	}
-	fill(0);
-	text('FPS: ' + currentFrameRate, 1, 1, 100, 50);
+	UI.update();
+	UI.draw();
 
-	loopCounter++;
 }
