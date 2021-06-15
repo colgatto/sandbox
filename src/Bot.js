@@ -24,7 +24,10 @@ class Bot{
 		this.d = this.r * 2;
 
 		this.drawPathOn = opt.drawPath || false;
-		this.path = [];
+		this.path = [{
+			color: this.color,
+			point: [ this.pos.x, this.pos.y ]
+		}];
 		this.addNewPath = false;
 		
 		this.defaultNearDist = opt.nearDist || 10;
@@ -76,7 +79,6 @@ class Bot{
 			stroke(this.color);
 			for (let i = 0; i < this.path.length; i++) {
 				vertex(...this.path[i].point);
-				//curveVertex(...this.path[i].point);
 			}
 			vertex(this.pos.x, this.pos.y);
 			endShape();
@@ -116,10 +118,10 @@ class Bot{
 
 		if(this.drawPathOn && this.addNewPath){
 			this.addNewPath = false;
-			if(newPos.dist(this.prevPos) > 5 ){
+			if(newPos.dist(this.prevPos) > 10 ){
 				this.path.push( { color: this.color, point: [ newPos.x, newPos.y ] } );
 				this.prevPos = newPos.copy();
-				if(this.path.length > 30) this.path.shift();
+				if(this.path.length > 35) this.path.shift();
 			}
 		}
 
