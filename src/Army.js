@@ -29,19 +29,20 @@ class Army{
 		return id;
 	}
 
-	addBot(){
-		
-		const newPos = createVector( random(this.r, W - this.r), random(this.r, H - this.r) );
+	addBot(x=null,y=null){
+		let isRandom = x===null||y===null;
 
-		if( newPos.x + this.r > W || newPos.x - this.r < 0 ||
-			newPos.y + this.r > H || newPos.y - this.r < 0 )
-			return this.addBot();
+		const newPos = isRandom ? createVector(random(this.r, config.W - this.r),random(this.r, config.H - this.r)) : createVector(x, y);
+
+		if( newPos.x + this.r > config.W || newPos.x - this.r < 0 ||
+			newPos.y + this.r > config.H || newPos.y - this.r < 0 )
+			return isRandom ? this.addBot() : false;
 
 		for (const army in armies) {
 			let m = armies[army].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
-				if( newPos.dist(b.pos) <= this.r + b.r ) return this.addBot();
+				if( newPos.dist(b.pos) <= this.r + b.r ) return isRandom ? this.addBot() : false;
 			}
 		}
 

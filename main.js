@@ -1,5 +1,3 @@
-const W = Math.floor(window.innerWidth/1.7);
-const H = Math.floor(window.innerHeight/1.7);
 
 const getFirst = (list, army) => {
 	for (let i = 0; i < list.length; i++) {
@@ -17,7 +15,7 @@ function collideOnBound(side){
 	}
 	if( side == this.boundary.DOWN ){
 		this.velocity.y = -this.velocity.y;
-		this.pos.y = H - this.r - 1;
+		this.pos.y = config.H - this.r - 1;
 		this.addNewPath = true;
 		return;
 	}
@@ -29,7 +27,7 @@ function collideOnBound(side){
 	}
 	if( side == this.boundary.RIGHT ){
 		this.velocity.x = -this.velocity.x;
-		this.pos.x = W - this.r - 1;
+		this.pos.x = config.W - this.r - 1;
 		this.addNewPath = true;
 		return;
 	}
@@ -38,12 +36,12 @@ function collideOnBound(side){
 const armies = {
 
 	c: new Army({
-		name: 'cacciatori',
-		color: 'red',
-		size: 18,
-		count: 5,
-		nearDist: 20,
-		drawPath: true,
+		name: config.cacciatori.name,
+		color: config.cacciatori.color,
+		size: config.cacciatori.size,
+		count: config.cacciatori.count,
+		nearDist: config.cacciatori.nearDist,
+		drawPath: config.cacciatori.drawPath,
 		botEvents: {
 			
 			onInit: function(){
@@ -52,7 +50,7 @@ const armies = {
 
 			preUpdate: function(){
 				this.randCount++;
-				let n = this.getNearBot('prede');
+				let n = this.getNearBot(config.prede.name);
 				if(n.length > 0){
 					this.follow(n[0].bot);
 					this.color = color(166, 16, 30);
@@ -63,9 +61,9 @@ const armies = {
 			},
 
 			onCollision: function(entity){
-				if(entity.army.name == 'prede'){
+				if(entity.army.name == config.prede.name){
 					this.setR(this.r+2);
-					this.setSpeed(this.speed+0.1);
+					this.setSpeed(this.speed+0.03);
 					entity.destroy();
 					return;
 				}
@@ -80,12 +78,12 @@ const armies = {
 	}),
 	
 	p: new Army({
-		name: 'prede',
-		color: 'green',
-		size: 20,
-		count: 60,
-		nearDist: 25,
-		drawPath: true,
+		name: config.prede.name,
+		color: config.prede.color,
+		size: config.prede.size,
+		count: config.prede.count,
+		nearDist: config.prede.nearDist,
+		drawPath: config.prede.drawPath,
 		botEvents: {
 			
 			onInit: function(){
@@ -94,13 +92,13 @@ const armies = {
 
 			preUpdate: function(){
 				this.randCount++;
-				let n = this.getNearBot('cacciatori');
+				let n = this.getNearBot(config.cacciatori.name);
 				if(n.length > 0){
 					let b = n[0].bot;
 					this.color = 'blue';
 					let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 					this.setDirection( an - Math.PI );
-					this.setSpeed(1.01);
+					this.setSpeed(1.1);
 				}else{
 					this.color = this.army.color;
 					if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
