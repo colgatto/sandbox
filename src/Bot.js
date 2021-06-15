@@ -26,6 +26,9 @@ class Bot{
 		this.d = this.r * 2;
 
 		this.drawPathOn = opt.drawPath || false;
+		this.path = [];
+
+		this.defaultNearDist = opt.nearDist || 10;
 
 		this.velocity = p5.Vector.fromAngle(radians(this.angle));
 		this.velocity.mult(this.speed);
@@ -44,9 +47,9 @@ class Bot{
 
 	nop(){}
 
-	drawPath(on=true){
+	/*drawPath(on=true){
 		this.drawPathOn = on;
-	}
+	}*/
 
 	setDirection(angle) {
 		this.angle = angle;
@@ -55,14 +58,41 @@ class Bot{
 	}
 
 	draw(){
-		fill(this.color);
-		
+		fill(this.color);	
 		ellipse(this.pos.x, this.pos.y, this.d);
+	}	
+
+	drawPath(){
+		if(this.drawPathOn){
+			push();
+			noFill();
+			beginShape();
+			for (let i = 0; i < this.path.length; i++) {
+				stroke(this.path[i].color);
+				vertex(...this.path[i].point);
+				//curveVertex(...this.path[i].point);
+			}
+			endShape();
+			pop();
+			/*
+			push();
+			for (let i = 0; i < this.path.length; i++) {
+				stroke(this.path[i].color);
+				point(...this.path[i].point);
+			}
+			pop();
+			*/
+		}
 	}
 
 	update(){
 		
 		this.preUpdate();
+
+		let entity = this.checkCollision();
+		if (entity) {
+			this.onCollision(entity);
+		}
 
 		let bc = this.checkBoundaryCollision();
 		
@@ -70,19 +100,17 @@ class Bot{
 			this.onBoundary(bc);
 		}
 		
-		let entity = this.checkCollision();
-		if (entity) {
-			this.onCollision(entity);
-		}
-		
-		this.prevPos = this.pos.copy();
-		this.pos.add(this.velocity);
-		
+		let newPos = p5.Vector.add(this.pos, this.velocity);
+
 		if(this.drawPathOn){
-			//console.log(this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y);
-			fullPath.push({color: this.color, pos: [ this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y ] });
+			if(newPos.dist(this.prevPos) > this.r ){
+				this.path.push( { color: this.color, point: [ newPos.x, newPos.y ] } );
+				this.prevPos = newPos.copy();
+				if(this.path.length > 30) this.path.shift();
+			}
 		}
 
+		this.pos = newPos;
 	}
 
 	checkBoundaryCollision(){
@@ -108,7 +136,8 @@ class Bot{
 		return false;
 	}
 
-	getNearBot(dist, armyFilter = false){
+	getNearBot(armyFilter = false, dist = false){
+		if(!dist) dist = this.defaultNearDist;
 		let near = [];
 		for (const army in armies) {
 			let m = armies[army].members;
@@ -137,6 +166,9 @@ class Bot{
 		}
 	}
 
-	getNearEntity
+	follow(b){
+		let an = degrees( Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) ) );
+		this.setDirection( an );
+	}
 
 }

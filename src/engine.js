@@ -4,19 +4,22 @@ function setup() {
 	for (const army in armies) {
 		armies[army].setup();
 	}
+	
+	for (const army in armies) {
+		armies[army].init();
+	}
 }
 
 function draw() {
 	background(220);
 	
-	for (let i = 0; i < fullPath.length; i++) {
-		const pData = fullPath[i];
-		fill(pData.color);
-		line(...pData.pos);
-	}
-	
 	for (const army in armies) {
 		armies[army].update();
+	}
+	for (const army in armies) {
+		armies[army].drawPath();
+	}
+	for (const army in armies) {
 		armies[army].draw();
 	}
 

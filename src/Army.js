@@ -7,13 +7,15 @@ class Army{
 
 		this.color = opt.color || 255;
 		this.count = opt.count || 1;
-
+		
 		this.drawPathOn = opt.drawPath || false;
+		this.defaultNearDist = opt.nearDist || 10;
 		
 		this.botEvents = {
 			preUpdate: opt.botEvents.preUpdate || this.nop,
 			onCollision: opt.botEvents.onCollision || this.nop,
 			onBoundary: opt.botEvents.onBoundary || this.nop,
+			onInit: opt.botEvents.onInit || this.nop,
 		}
 
 		this.members = [];
@@ -22,8 +24,8 @@ class Army{
 	nop(){}
 
 	generateNewId(){
-		let id = 'b' + random(0, 999999999);
-		while (this.members.map( v => v.id ).includes(id)) id = 'b' + random(0, 999999999);
+		let id = 'b' + Math.floor(random(0, 999999999));
+		while (this.members.map( v => v.id ).includes(id)) id = 'b' + Math.floor(random(0, 999999999));
 		return id;
 	}
 
@@ -51,12 +53,14 @@ class Army{
 			x: newPos.x,
 			y: newPos.y,
 			drawPath: this.drawPathOn,
+			nearDist: this.defaultNearDist,
 			army: this
 		});
 		
 		c.onCollision = this.botEvents.onCollision.bind(c);
 		c.onBoundary = this.botEvents.onBoundary.bind(c);
 		c.preUpdate = this.botEvents.preUpdate.bind(c);
+		c.onInit = this.botEvents.onInit.bind(c);
 
 		this.members.push( c );
 		return id;
@@ -69,16 +73,27 @@ class Army{
 		}
 	}
 
-	draw(){
+	doForAll(method){
 		for (let i = 0; i < this.members.length; i++) {
-			this.members[i].draw();
+			this.members[i][method]();
 		}
 	}
 
-	update(){
-		for (let i = 0; i < this.members.length; i++) {
-			this.members[i].update();
-		}
+	init(){
+		this.doForAll('onInit');
 	}
+
+	draw(){
+		this.doForAll('draw');
+	}
+	
+	drawPath(){
+		this.doForAll('drawPath');
+	}
+	
+	update(){
+		this.doForAll('update');
+	}
+
 
 }
