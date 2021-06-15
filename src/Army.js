@@ -2,14 +2,18 @@ class Army{
 
 	constructor(opt){
 		this.name = opt.name;
-		this.size = opt.size || 20;
+
+		this.r = (opt.size || 20) / 2;
+
 		this.color = opt.color || 255;
 		this.count = opt.count || 1;
+
+		this.drawPathOn = opt.drawPath || false;
 		
 		this.botEvents = {
-			onUpdate: opt.botEvents.onUpdate || this.nop,
+			preUpdate: opt.botEvents.preUpdate || this.nop,
 			onCollision: opt.botEvents.onCollision || this.nop,
-			onBoundary: opt.botEvents.onBoundary || this.nop
+			onBoundary: opt.botEvents.onBoundary || this.nop,
 		}
 
 		this.members = [];
@@ -24,33 +28,35 @@ class Army{
 	}
 
 	addBot(){
-		const data = { r: this.size / 2 };
-		const newPos = createVector( random(data.r, W - data.r), random(data.r, H - data.r) );
+		
+		const newPos = createVector( random(this.r, W - this.r), random(this.r, H - this.r) );
 
-		if( newPos.x + data.r > W || newPos.x - data.r < 0 ||
-			newPos.y + data.r > H || newPos.y - data.r < 0 )
+		if( newPos.x + this.r > W || newPos.x - this.r < 0 ||
+			newPos.y + this.r > H || newPos.y - this.r < 0 )
 			return this.addBot();
 
 		for (const army in armies) {
 			let m = armies[army].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
-				if( newPos.dist(b.pos) <= data.r + b.r ) return this.addBot();
+				if( newPos.dist(b.pos) <= this.r + b.r ) return this.addBot();
 			}
 		}
 
 		let id = this.generateNewId();
 		let c = new Bot({
 			id: id,
-			r: data.r,
+			r: this.r,
 			color: this.color,
 			x: newPos.x,
-			y: newPos.y
+			y: newPos.y,
+			drawPath: this.drawPathOn,
+			army: this
 		});
 		
 		c.onCollision = this.botEvents.onCollision.bind(c);
 		c.onBoundary = this.botEvents.onBoundary.bind(c);
-		c.onUpdate = this.botEvents.onUpdate.bind(c);
+		c.preUpdate = this.botEvents.preUpdate.bind(c);
 
 		this.members.push( c );
 		return id;
