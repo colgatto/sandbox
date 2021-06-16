@@ -22,7 +22,6 @@ class Bot{
 		this.r = this.d / 2;
 
 		this.drawPathOn = opt.drawPath || false;
-		this.pathType = opt.pathType || sandboxConfig.defaultBotPathType;
 		this.path = [{
 			color: this.color,
 			point: [ this.pos.x, this.pos.y ]
@@ -45,6 +44,13 @@ class Bot{
 		this.velocity.setMag(this.speed);
 	}
 
+	setColor(c){
+		if(this.color != c){
+			this.color = c;
+			this.addNewPath = true;
+		}
+	}
+
 	nop(){}
 
 	setDirection(radians) {
@@ -64,15 +70,26 @@ class Bot{
 
 	drawPath(){
 		if(this.drawPathOn){
+			let lastColor = this.color;
 			push();
 			noFill();
+			stroke(lastColor);
 			beginShape();
-			stroke(this.color);
 			for (let i = 0; i < this.path.length; i++) {
-				vertex(...this.path[i].point);
+				let p = this.path[i];
+				vertex(...p.point);
+				if(p.color != lastColor){
+					vertex(...p.point);
+					endShape();
+					stroke(p.color);
+					beginShape();
+					vertex(...p.point);
+					lastColor = p.color;
+				}	
 			}
+			stroke(lastColor);
 			vertex(this.pos.x, this.pos.y);
-			endShape();				
+			endShape();			
 			pop();
 		}
 	}

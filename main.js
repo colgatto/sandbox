@@ -53,9 +53,9 @@ const armies = {
 				let n = this.getNearBot(config.prede.name);
 				if(n.length > 0){
 					this.follow(n[0].bot);
-					this.color = config.cacciatori.alertColor;
+					this.setColor(config.cacciatori.alertColor);
 				}else{
-					this.color = this.army.color;
+					this.setColor(this.army.color);
 					if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
 				}
 			},
@@ -97,18 +97,18 @@ const armies = {
 				let n2 = this.getNearBot('cibo', 50);
 				if(n.length){
 					let b = n[0].bot;
-					this.color = config.prede.alertColor;
+					this.setColor(config.prede.alertColor);
 					let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 					this.setDirection( an - Math.PI );
 					this.setSpeed(1.1);
 				}else if(n2.length){
 					let b = n2[0].bot;
-					this.color = config.prede.eatColor;
+					this.setColor(config.prede.eatColor);
 					let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 					this.setDirection( an );
 					this.setSpeed(1.1);
 				}else{
-					this.color = this.army.color;
+					this.setColor(this.army.color);
 					if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
 					this.setSpeed(1);
 				}

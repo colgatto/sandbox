@@ -6,9 +6,9 @@ const config = {
 		color: '#ff0000',
 		alertColor: '#96101e',
 		size: 18,
-		count: 15,
+		count: 20,
 		nearDist: 22,
-		//drawPath: true
+		drawPath: true
 	},
 	prede: {
 		name: 'prede',
@@ -18,7 +18,7 @@ const config = {
 		size: 20,
 		count: 100,
 		nearDist: 25,
-		//drawPath: true
+		drawPath: true
 	},
 	cibo: {
 		name: 'cibo',
