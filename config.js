@@ -2,6 +2,7 @@ const config = {
 	W: window.innerWidth,
 	H: window.innerHeight,
 	cacciatori: {
+		botClass: Cacciatore,
 		name: 'cacciatori',
 		color: '#ff0000',
 		alertColor: '#96101e',
@@ -11,6 +12,7 @@ const config = {
 		drawPath: true
 	},
 	prede: {
+		botClass: Preda,
 		name: 'prede',
 		color: '#00df00',
 		alertColor: '#d0df00',
@@ -21,6 +23,7 @@ const config = {
 		drawPath: true
 	},
 	cibo: {
+		botClass: Cibo,
 		name: 'cibo',
 		color: '#0000df',
 		size: 5,

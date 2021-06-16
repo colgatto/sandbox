@@ -7,18 +7,12 @@ class Army{
 
 		this.color = opt.color || 255;
 		this.count = opt.count || 1;
+		this.botClass = opt.botClass || null;
 		
 		this.speed = typeof opt.speed == 'undefined' ? sandboxConfig.defaultBotSpeed : opt.speed;
 
 		this.drawPathOn = opt.drawPath || false;
 		this.defaultNearDist = opt.nearDist || 10;
-		
-		this.botEvents = {
-			preUpdate: opt.botEvents.preUpdate || this.nop,
-			onCollision: opt.botEvents.onCollision || this.nop,
-			onBoundary: opt.botEvents.onBoundary || this.nop,
-			onInit: opt.botEvents.onInit || this.nop,
-		}
 
 		this.members = [];
 	}
@@ -49,7 +43,7 @@ class Army{
 		}
 
 		let id = this.generateNewId();
-		let c = new Bot({
+		let c = new this.botClass({
 			id: id,
 			r: this.r,
 			color: this.color,
@@ -60,11 +54,6 @@ class Army{
 			nearDist: this.defaultNearDist,
 			army: this
 		});
-		
-		c.onCollision = this.botEvents.onCollision.bind(c);
-		c.onBoundary = this.botEvents.onBoundary.bind(c);
-		c.preUpdate = this.botEvents.preUpdate.bind(c);
-		c.onInit = this.botEvents.onInit.bind(c);
 
 		this.members.push( c );
 		return id;
