@@ -87,26 +87,41 @@ const armies = {
 		botEvents: {
 			
 			onInit: function(){
+				this.bag = 0;
 				this.randCount = Math.floor(random(100));
 			},
 
 			preUpdate: function(){
 				this.randCount++;
-				let n = this.getNearBot(config.cacciatori.name);
-				if(n.length > 0){
+				let n = this.getNearBot('cacciatori');
+				let n2 = this.getNearBot('cibo', 50);
+				if(n.length){
 					let b = n[0].bot;
 					this.color = config.prede.alertColor;
 					let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 					this.setDirection( an - Math.PI );
+					this.setSpeed(1.1);
+				}else if(n2.length){
+					let b = n2[0].bot;
+					this.color = config.prede.eatColor;
+					let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
+					this.setDirection( an );
 					this.setSpeed(1.1);
 				}else{
 					this.color = this.army.color;
 					if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
 					this.setSpeed(1);
 				}
+
 			},
 			
 			onCollision: function(entity){
+				if(entity.army.name == config.cibo.name){
+					this.bag++;
+					this.setR(this.r+1);
+					entity.destroy();
+					return;
+				}
 				let an = Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) );
 				this.setDirection( an - Math.PI );
 				entity.setDirection( an );
@@ -123,7 +138,6 @@ const armies = {
 		count: config.cibo.count,
 		speed: config.cibo.speed,
 		botEvents: {
-
 		}
 	})
 

@@ -8,16 +8,17 @@ const config = {
 		size: 18,
 		count: 15,
 		nearDist: 22,
-		drawPath: true
+		//drawPath: true
 	},
 	prede: {
 		name: 'prede',
 		color: '#00df00',
 		alertColor: '#d0df00',
+		eatColor: '#50ff50',
 		size: 20,
 		count: 100,
 		nearDist: 25,
-		drawPath: true
+		//drawPath: true
 	},
 	cibo: {
 		name: 'cibo',

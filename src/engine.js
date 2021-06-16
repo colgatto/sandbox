@@ -10,6 +10,12 @@ function setup() {
 	for (const army in armies) {
 		armies[army].init();
 	}
+
+	
+	setInterval(()=>{
+		armies.cibo.addBot();
+	}, 200);
+
 }
 
 function draw() {
