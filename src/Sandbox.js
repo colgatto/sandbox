@@ -6,12 +6,34 @@ class Sandbox{
 		this.armies = [];
 		this.armiesL = 0;
 		this.backgroundColor = 220;
+		this.paused = false;
 		this.UI = new Ui(1,1,100,20);
+	}
+
+	togglePause(){
+		this.paused = !this.paused;
+		if(this.paused){
+			frameRate(0);
+			noLoop();
+		}else{
+			frameRate(60);
+			loop();
+		}
 	}
 
 	addArmy(opt){
 		this.armies.push( new Army(opt) );
 		this.armiesL++;
+	}
+
+	addBot(army, x, y){
+		for (let i = 0; i < this.armiesL; i++) {
+			if(this.armies[i].name == army){
+				this.armies[i].addBot(x, y);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	forEachArmy(cb){

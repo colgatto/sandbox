@@ -34,11 +34,16 @@ class Preda extends Bot{
 	}
 
 	onCollision(entity){
-		if(entity.army.name == 'cibo'){
-			this.bag++;
-			this.setR(this.r+1);
-			entity.destroy();
-			return;
+		switch (entity.army.name) {
+			case 'cibo':
+				this.bag++;
+				this.setR(this.r+1);
+				entity.destroy();
+				return;
+			case 'wall':
+				//let newDir = this.nearFreePos();
+				//this.setDirection( newDir );
+				return;
 		}
 		let an = Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) );
 		this.setDirection( an - Math.PI );

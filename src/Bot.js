@@ -22,10 +22,13 @@ class Bot{
 		this.r = this.d / 2;
 
 		this.drawPathOn = opt.drawPath || false;
+		this.path = [ [ this.pos.x, this.pos.y ] ];
+		/**
 		this.path = [{
 			color: this.color,
 			point: [ this.pos.x, this.pos.y ]
 		}];
+		/**/
 		this.addNewPath = false;
 		
 		this.defaultNearDist = opt.nearDist || sandboxConfig.defaultBotNearDist;
@@ -70,6 +73,18 @@ class Bot{
 
 	drawPath(){
 		if(this.drawPathOn){
+			/**/
+			push();
+			noFill();
+			stroke(this.color);
+			beginShape();
+			for (let i = 0; i < this.path.length; i++) {
+				vertex(...this.path[i]);
+			}
+			vertex(this.pos.x, this.pos.y);
+			endShape();			
+			pop();
+			/**
 			let lastColor = this.color;
 			push();
 			noFill();
@@ -91,6 +106,7 @@ class Bot{
 			vertex(this.pos.x, this.pos.y);
 			endShape();			
 			pop();
+			/**/
 		}
 	}
 
@@ -104,7 +120,6 @@ class Bot{
 		}
 
 		let bc = this.checkBoundaryCollision();
-		
 		if(bc){
 			this.onBoundary(bc);
 		}
@@ -117,7 +132,8 @@ class Bot{
 		if(this.drawPathOn && this.addNewPath){
 			this.addNewPath = false;
 			if(newPos.dist(this.prevPos) > sandboxConfig.minDistNewPath ){
-				this.path.push( { color: this.color, point: [ newPos.x, newPos.y ] } );
+				//this.path.push( { color: this.color, point: [ newPos.x, newPos.y ] } );
+				this.path.push( [ newPos.x, newPos.y ] );
 				this.prevPos = newPos.copy();
 				if(this.path.length > sandboxConfig.maxPathLength) this.path.shift();
 			}
@@ -182,6 +198,20 @@ class Bot{
 	follow(b){
 		let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 		this.setDirection( an );
+	}
+
+	nearFreePos(){
+		//let newPos = 
+		for (let j = 0; j < sandbox.armiesL; j++) {
+			let m = sandbox.armies[j].members;
+			for (let i = 0; i < m.length; i++) {
+				let b = m[i];
+				if( b.id == this.id ) continue;
+				if( this.pos.dist(b.pos) <= this.r + b.r ){
+					return b;
+				}
+			}
+		}
 	}
 
 }

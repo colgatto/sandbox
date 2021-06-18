@@ -29,10 +29,33 @@ sandbox.addArmy({
 	speed: 0
 });
 
+sandbox.addArmy({
+	name: 'wall',
+	botClass: Wall,
+	color: '#8f8f8f',
+	size: 5,
+	count: 200,
+	speed: 0
+});
+
+////////////////
+
 function setup() {
 	sandbox.setup();
 }
 
 function draw() {
 	sandbox.draw();
+}
+
+//////////////////
+
+function mouseClicked() {
+	sandbox.addBot('cibo', mouseX, mouseY);
+}
+
+function keyPressed() {
+	if (key === 'p') {
+		sandbox.togglePause();
+	}
 }
