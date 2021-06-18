@@ -4,5 +4,5 @@ const sandboxConfig = {
 	defaultBotNearDist: 20,
 	defaultBotSpeed: 1,
 	maxPathLength: 5,
-	minDistNewPath: 5
+	minDistNewPath: 10
 };

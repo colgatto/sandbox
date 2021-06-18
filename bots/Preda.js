@@ -16,13 +16,13 @@ class Preda extends Bot{
 		let n2 = this.getNearBot('cibo', 50);
 		if(n.length){
 			let b = n[0].bot;
-			this.setColor(config.prede.alertColor);
+			this.setColor('#d0df00');
 			let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 			this.setDirection( an - Math.PI );
 			this.setSpeed(1.1);
 		}else if(n2.length){
 			let b = n2[0].bot;
-			this.setColor(config.prede.eatColor);
+			this.setColor('#20bf80');
 			let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 			this.setDirection( an );
 			this.setSpeed(1.1);
@@ -34,7 +34,7 @@ class Preda extends Bot{
 	}
 
 	onCollision(entity){
-		if(entity.army.name == config.cibo.name){
+		if(entity.army.name == 'cibo'){
 			this.bag++;
 			this.setR(this.r+1);
 			entity.destroy();
@@ -53,7 +53,7 @@ class Preda extends Bot{
 		}
 		if( side == this.boundary.DOWN ){
 			this.velocity.y = -this.velocity.y;
-			this.pos.y = config.H - this.r - 1;
+			this.pos.y = sandbox.height - this.r - 1;
 			this.addNewPath = true;
 			return;
 		}
@@ -65,7 +65,7 @@ class Preda extends Bot{
 		}
 		if( side == this.boundary.RIGHT ){
 			this.velocity.x = -this.velocity.x;
-			this.pos.x = config.W - this.r - 1;
+			this.pos.x = sandbox.width - this.r - 1;
 			this.addNewPath = true;
 			return;
 		}

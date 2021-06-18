@@ -28,14 +28,14 @@ class Army{
 	addBot(x=null,y=null){
 		let isRandom = x===null || y===null;
 
-		const newPos = isRandom ? createVector(random(this.r, config.W - this.r),random(this.r, config.H - this.r)) : createVector(x, y);
+		const newPos = isRandom ? createVector(random(this.r, sandbox.width - this.r),random(this.r, sandbox.height - this.r)) : createVector(x, y);
 
-		if( newPos.x + this.r > config.W || newPos.x - this.r < 0 ||
-			newPos.y + this.r > config.H || newPos.y - this.r < 0 )
+		if( newPos.x + this.r > sandbox.width || newPos.x - this.r < 0 ||
+			newPos.y + this.r > sandbox.height || newPos.y - this.r < 0 )
 			return isRandom ? this.addBot() : false;
 
-		for (const army in armies) {
-			let m = armies[army].members;
+		for (let j = 0; j < sandbox.armiesL; j++) {
+			let m = sandbox.armies[j].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
 				if( newPos.dist(b.pos) <= this.r + b.r ) return isRandom ? this.addBot() : false;

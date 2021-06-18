@@ -128,16 +128,16 @@ class Bot{
 
 	checkBoundaryCollision(){
 		var newPos = p5.Vector.add(this.pos, this.velocity);
-		if (newPos.x + this.r > config.W) return this.boundary.RIGHT;
+		if (newPos.x + this.r > sandbox.width) return this.boundary.RIGHT;
 		if (newPos.x - this.r < 0 ) return this.boundary.LEFT;
-		if (newPos.y + this.r > config.H) return this.boundary.DOWN;
+		if (newPos.y + this.r > sandbox.height) return this.boundary.DOWN;
 		if (newPos.y - this.r < 0) return this.boundary.UP;
 		return false;
 	}
 
 	checkCollision(){
-		for (const army in armies) {
-			let m = armies[army].members;
+		for (let j = 0; j < sandbox.armiesL; j++) {
+			let m = sandbox.armies[j].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
 				if( b.id == this.id ) continue;
@@ -152,8 +152,8 @@ class Bot{
 	getNearBot(armyFilter = false, dist = false){
 		if(!dist) dist = this.defaultNearDist;
 		let near = [];
-		for (const army in armies) {
-			let m = armies[army].members;
+		for (let j = 0; j < sandbox.armiesL; j++) {
+			let m = sandbox.armies[j].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
 				if( b.id == this.id ) continue;

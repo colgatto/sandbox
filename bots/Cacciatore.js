@@ -10,10 +10,10 @@ class Cacciatore extends Bot{
 	}
 	preUpdate(){
 		this.randCount++;
-		let n = this.getNearBot(config.prede.name);
+		let n = this.getNearBot('prede');
 		if(n.length > 0){
 			this.follow(n[0].bot);
-			this.setColor(config.cacciatori.alertColor);
+			this.setColor('#96101e');
 		}else{
 			this.setColor(this.army.color);
 			if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
@@ -21,7 +21,7 @@ class Cacciatore extends Bot{
 	}
 
 	onCollision(entity){
-		if(entity.army.name == config.prede.name){
+		if(entity.army.name == 'prede'){
 			this.setR(this.r+2);
 			this.setSpeed(this.speed+0.03);
 			entity.destroy();
@@ -40,7 +40,7 @@ class Cacciatore extends Bot{
 		}
 		if( side == this.boundary.DOWN ){
 			this.velocity.y = -this.velocity.y;
-			this.pos.y = config.H - this.r - 1;
+			this.pos.y = sandbox.height - this.r - 1;
 			this.addNewPath = true;
 			return;
 		}
@@ -52,7 +52,7 @@ class Cacciatore extends Bot{
 		}
 		if( side == this.boundary.RIGHT ){
 			this.velocity.x = -this.velocity.x;
-			this.pos.x = config.W - this.r - 1;
+			this.pos.x = sandbox.width - this.r - 1;
 			this.addNewPath = true;
 			return;
 		}
