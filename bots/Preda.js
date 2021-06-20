@@ -13,23 +13,23 @@ class Preda extends Bot{
 	preUpdate(){
 		this.randCount++;
 		let n = this.getNearBot('cacciatori');
-		let n2 = this.getNearBot('cibo', 50);
+		let n2 = this.getNearBot('cibo', 20);
 		if(n.length){
 			let b = n[0].bot;
 			this.setColor('#d0df00');
 			let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 			this.setDirection( an - Math.PI );
-			this.setSpeed(1.1);
+			//this.setSpeed(1.1);
 		}else if(n2.length){
 			let b = n2[0].bot;
 			this.setColor('#20bf80');
 			let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
 			this.setDirection( an );
-			this.setSpeed(1.1);
+			//this.setSpeed(1.1);
 		}else{
 			this.setColor(this.army.color);
-			if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
-			this.setSpeed(1);
+			if(this.randCount % 50 == 0) this.rotateDirection(random(-0.7, 0.7));
+			//this.setSpeed(1);
 		}
 	}
 
@@ -41,9 +41,10 @@ class Preda extends Bot{
 				entity.destroy();
 				return;
 			case 'wall':
-				//let newDir = this.nearFreePos();
-				//this.setDirection( newDir );
-				return;
+				//let newDir = this.moveToNearFree();
+				//console.log(newDir);
+				//if(newDir !== false) this.setDirection( newDir );
+				//return;
 		}
 		let an = Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) );
 		this.setDirection( an - Math.PI );

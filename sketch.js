@@ -1,23 +1,26 @@
 const sandbox = new Sandbox(window.innerWidth, window.innerHeight );
 
+/**/
 sandbox.addArmy({
 	name: 'cacciatori',
 	botClass: Cacciatore,
 	color: '#ff0000',
 	size: 18,
-	count: 20,
+	count: 10,
 	nearDist: 22,
 	drawPath: true,
 });
+/**/
 
 sandbox.addArmy({
 	name: 'prede',
 	botClass: Preda,
 	color: '#00df00',
 	size: 20,
-	count: 100,
+	count: 150,
 	nearDist: 25,
-	drawPath: true
+	drawPath: true,
+	speed: 4
 });
 
 sandbox.addArmy({
@@ -25,16 +28,17 @@ sandbox.addArmy({
 	botClass: Cibo,
 	color: '#0000df',
 	size: 5,
-	count: 20,
+	count: 200,
 	speed: 0
 });
+
 
 sandbox.addArmy({
 	name: 'wall',
 	botClass: Wall,
 	color: '#8f8f8f',
 	size: 5,
-	count: 200,
+	count: 5,
 	speed: 0
 });
 

@@ -60,9 +60,13 @@ class Bot{
 		this.velocity.setHeading(radians);
 		this.addNewPath = true;
 	}
+
+	getDirection() {
+		return this.velocity.heading();
+	}
 	
-	rotateDirection(angle) {
-		this.velocity.rotate(angle);
+	rotateDirection(radiant) {
+		this.velocity.rotate(radiant);
 		this.addNewPath = true;
 	}
 
@@ -200,18 +204,21 @@ class Bot{
 		this.setDirection( an );
 	}
 
-	nearFreePos(){
-		//let newPos = 
-		for (let j = 0; j < sandbox.armiesL; j++) {
-			let m = sandbox.armies[j].members;
-			for (let i = 0; i < m.length; i++) {
-				let b = m[i];
-				if( b.id == this.id ) continue;
-				if( this.pos.dist(b.pos) <= this.r + b.r ){
-					return b;
-				}
+	moveToNearFree(){
+		var dir = this.getDirection();
+		var newDir = 0;
+		let found = false;
+		while(newDir < Math.PI*2){
+			newDir += 0.1;
+			this.setDirection(newDir);
+			if(this.checkCollision()){
+				continue;
 			}
+			found = true;
+			break;
 		}
+		if(!found) this.setDirection(dir);
+		return false;
 	}
 
 }
