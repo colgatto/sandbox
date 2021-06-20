@@ -34,8 +34,8 @@ class Group{
 			newPos.y + this.r > sandbox.height || newPos.y - this.r < 0 )
 			return isRandom ? this.addEntity() : false;
 
-		for (let j = 0; j < sandbox.groupsL; j++) {
-			let m = sandbox.groups[j].members;
+		for (let j = 0; j < sandbox.armiesL; j++) {
+			let m = sandbox.armies[j].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
 				if( newPos.dist(b.pos) <= this.r + b.r ) return isRandom ? this.addEntity() : false;
