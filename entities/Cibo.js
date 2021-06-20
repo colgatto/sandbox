@@ -1,4 +1,4 @@
-class Cibo extends Bot{
+class Cibo extends Entity{
 
 	constructor(opt={}){
 		super(opt);

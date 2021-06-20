@@ -1,4 +1,4 @@
-class Wall extends Bot{
+class Wall extends Entity{
 
 	constructor(opt={}){
 		super(opt);

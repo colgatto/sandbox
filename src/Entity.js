@@ -5,20 +5,20 @@ const sortByDist = (a,b) => {
 	return 0;
 }
 
-class Bot{
+class Entity{
 
 	boundary = { UP: 1, DOWN: 2, LEFT: 3, RIGHT: 4 };
 	
 	constructor(opt = {}){
 
 		this.id = opt.id || 'b' + random(0,999999999);
-		this.army = opt.army || null;
+		this.group = opt.group || null;
 
 		this.pos = createVector(opt.x || width/2, opt.y || height/2);
 		this.prevPos = this.pos.copy();
 				
-		this.color = opt.color || random(sandboxConfig.defaultBotColors);
-		this.d = sandboxConfig.defaultBotSize;
+		this.color = opt.color || random(sandboxConfig.defaultEntityColors);
+		this.d = sandboxConfig.defaultEntitySize;
 		this.r = this.d / 2;
 
 		this.drawPathOn = opt.drawPath || false;
@@ -31,10 +31,10 @@ class Bot{
 		/**/
 		this.addNewPath = false;
 		
-		this.defaultNearDist = opt.nearDist || sandboxConfig.defaultBotNearDist;
+		this.defaultNearDist = opt.nearDist || sandboxConfig.defaultEntityNearDist;
 
 		this.velocity = p5.Vector.random2D();
-		this.setSpeed( typeof opt.speed == 'undefined' ? sandboxConfig.defaultBotSpeed : opt.speed );
+		this.setSpeed( typeof opt.speed == 'undefined' ? sandboxConfig.defaultEntitySpeed : opt.speed );
 	}
 
 	setR(r){
@@ -156,8 +156,8 @@ class Bot{
 	}
 
 	checkCollision(){
-		for (let j = 0; j < sandbox.armiesL; j++) {
-			let m = sandbox.armies[j].members;
+		for (let j = 0; j < sandbox.groupsL; j++) {
+			let m = sandbox.groups[j].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
 				if( b.id == this.id ) continue;
@@ -169,18 +169,18 @@ class Bot{
 		return false;
 	}
 
-	getNearBot(armyFilter = false, dist = false){
+	getNearEntity(groupFilter = false, dist = false){
 		if(!dist) dist = this.defaultNearDist;
 		let near = [];
-		for (let j = 0; j < sandbox.armiesL; j++) {
-			let m = sandbox.armies[j].members;
+		for (let j = 0; j < sandbox.groupsL; j++) {
+			let m = sandbox.groups[j].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
 				if( b.id == this.id ) continue;
-				if(armyFilter && armyFilter != b.army.name) continue;
+				if(groupFilter && groupFilter != b.group.name) continue;
 				let d = this.pos.dist(b.pos) - this.r - b.r;
 				if( d <= dist ){
-					near.push({dist: d, bot: b });
+					near.push({dist: d, entity: b });
 				}
 			}
 		}
@@ -190,10 +190,10 @@ class Bot{
 
 	destroy(){
 		//this.color = 255;
-		for (let i = 0, l = this.army.members.length; i < l; i++) {
-			if(this.army.members[i].id == this.id){
-				this.army.members.splice(i, 1);
-				this.army.count--;
+		for (let i = 0, l = this.group.members.length; i < l; i++) {
+			if(this.group.members[i].id == this.id){
+				this.group.members.splice(i, 1);
+				this.group.count--;
 				return;
 			}
 		}

@@ -1,31 +1,31 @@
 const sandbox = new Sandbox(window.innerWidth, window.innerHeight );
 
 /**/
-sandbox.addArmy({
+sandbox.addGroup({
 	name: 'cacciatori',
-	botClass: Cacciatore,
+	entityClass: Cacciatore,
 	color: '#ff0000',
 	size: 18,
-	count: 10,
-	nearDist: 22,
+	count: 6,
+	nearDist: 50,
 	drawPath: true,
 });
 /**/
 
-sandbox.addArmy({
+sandbox.addGroup({
 	name: 'prede',
-	botClass: Preda,
+	entityClass: Preda,
 	color: '#00df00',
 	size: 20,
-	count: 150,
+	count: 70,
 	nearDist: 25,
 	drawPath: true,
-	speed: 4
+	speed: 1.2
 });
 
-sandbox.addArmy({
+sandbox.addGroup({
 	name: 'cibo',
-	botClass: Cibo,
+	entityClass: Cibo,
 	color: '#0000df',
 	size: 5,
 	count: 200,
@@ -33,9 +33,9 @@ sandbox.addArmy({
 });
 
 
-sandbox.addArmy({
+sandbox.addGroup({
 	name: 'wall',
-	botClass: Wall,
+	entityClass: Wall,
 	color: '#8f8f8f',
 	size: 5,
 	count: 5,
@@ -55,7 +55,7 @@ function draw() {
 //////////////////
 
 function mouseClicked() {
-	sandbox.addBot('cibo', mouseX, mouseY);
+	sandbox.addEntity('cibo', mouseX, mouseY);
 }
 
 function keyPressed() {

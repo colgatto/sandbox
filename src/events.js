@@ -1,5 +1,5 @@
 function mouseClicked() {
-	sandbox.addBot('cibo', mouseX, mouseY);
+	sandbox.addEntity('cibo', mouseX, mouseY);
 }
 
 function keyPressed() {

@@ -1,4 +1,4 @@
-class Cacciatore extends Bot{
+class Cacciatore extends Entity{
 	
 	constructor(opt={}){
 		super(opt);
@@ -10,18 +10,18 @@ class Cacciatore extends Bot{
 	}
 	preUpdate(){
 		this.randCount++;
-		let n = this.getNearBot('prede');
+		let n = this.getNearEntity('prede');
 		if(n.length > 0){
-			this.follow(n[0].bot);
+			this.follow(n[0].entity);
 			this.setColor('#96101e');
 		}else{
-			this.setColor(this.army.color);
+			this.setColor(this.group.color);
 			if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
 		}
 	}
 
 	onCollision(entity){
-		if(entity.army.name == 'prede'){
+		if(entity.group.name == 'prede'){
 			this.setR(this.r+2);
 			this.setSpeed(this.speed+0.03);
 			entity.destroy();
