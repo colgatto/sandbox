@@ -34,7 +34,7 @@ class Entity{
 		this.defaultNearDist = opt.nearDist || 20;
 		
 		this.velocity = p5.Vector.random2D();
-		this.speed(1);
+		this.speed(0);
 		this.size(10);
 	}
 

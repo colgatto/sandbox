@@ -8,6 +8,8 @@ class Sandbox{
 		this.backgroundColor = 220;
 		this.paused = false;
 		this.UI = new Ui(1,1,100,20);
+		this.eventPipe = [];
+		this.events = {};
 	}
 
 	togglePause(){
@@ -51,13 +53,29 @@ class Sandbox{
 		this.forEachGroup( a => a.init() );
 	}
 
+	addEvent(name, cb){
+		this.events[name] = cb;
+	}
+
+	trigger(event, data = {}){
+		this.eventPipe.push({ event, data });
+	}
+
 	draw(){
 		background(this.backgroundColor);
 		
 		this.forEachGroup( a => a.update() );
+
+		//trigger event pipe
+		while(this.eventPipe.length > 0){
+			let ev = this.eventPipe.shift();
+			this.events[ev.event](ev.data);
+		}
+
 		this.forEachGroup( a => a.updatePosition() );
 		this.forEachGroup( a => a.drawPath() );
 		this.forEachGroup( a => a.draw() );
+
 
 		this.UI.update();
 		this.UI.draw();

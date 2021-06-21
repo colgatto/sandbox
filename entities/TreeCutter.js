@@ -9,7 +9,6 @@ class TreeCutter extends Entity{
 		this.size(20);
 		this.bag = 0;
 		
-		this.time = 0;
 		this.cutTime = 0;
 
 		this.state = 'search';
@@ -48,6 +47,7 @@ class TreeCutter extends Entity{
 		switch (entity.group.name) {
 			case 'tree':
 				this.cuttingTree = entity;
+				this.speed(0);
 				this.state = 'cutting';
 				return;
 			case 'wall':

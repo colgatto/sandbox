@@ -4,7 +4,7 @@ class Wall extends Entity{
 		opt.color = '#494949';
 		super(opt);
 		this.speed(0);
-		this.size(20);
+		this.size(14);
 	}
 	onInit(){
 		

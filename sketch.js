@@ -1,6 +1,6 @@
 const sandbox = new Sandbox(window.innerWidth, window.innerHeight );
 
-/**
+/**/
 sandbox.addGroup({
 	name: 'tree',
 	entityClass: Tree,

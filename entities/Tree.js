@@ -4,8 +4,7 @@ class Tree extends Entity{
 		opt.color = '#8a360a';
 		super(opt);
 		this.bag = Math.floor(random(1,5));
-		this.speed(0);
-		this.size(10);
+		this.size(8);
 	}
 	onInit(){
 		
