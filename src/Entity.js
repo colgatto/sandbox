@@ -46,11 +46,12 @@ class Entity{
 	}
 
 	speed(speed){
-		if(typeof speed == 'undefined')
+		if(typeof speed == 'undefined'){
 			return this.velocity.mag();
-		else if(speed == 0)
+		}
+		if(speed == 0){
 			this.stop();
-		else{
+		}else{
 			this.stop(false);
 			this.velocity.setMag(speed);
 		}

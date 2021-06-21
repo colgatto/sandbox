@@ -1,18 +1,18 @@
 const sandbox = new Sandbox(window.innerWidth, window.innerHeight );
 
-/**/
+/**
 sandbox.addGroup({
 	name: 'tree',
 	entityClass: Tree,
 	count: 70
 });
-
+/**/
 sandbox.addGroup({
 	name: 'treecutter',
 	entityClass: TreeCutter,
-	count: 1
+	count: 3
 });
-
+/**/
 sandbox.addGroup({
 	name: 'wall',
 	entityClass: Wall,

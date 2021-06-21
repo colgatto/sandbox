@@ -25,7 +25,6 @@ class TreeCutter extends Entity{
 		switch (this.state) {
 				
 			case 'search':
-				this.speed(1);
 				let nearTree = this.getNearEntity('tree', 30);
 				if(nearTree.length){
 					this.setColor('#ace32b');
@@ -37,9 +36,7 @@ class TreeCutter extends Entity{
 				break;
 
 			case 'cutting':
-				this.speed(0);
 				this.cutTree(this.cuttingTree);
-				console.log('neee');
 				break;
 				
 			default:
@@ -95,6 +92,7 @@ class TreeCutter extends Entity{
 			if(entity.bag == 0){
 				entity.destroy();
 				console.log(this.id + ' cut down ' + entity.id);
+				this.speed(1);
 				this.state = 'search';
 			}else{
 				console.log(this.id + ' get 1 wood');
