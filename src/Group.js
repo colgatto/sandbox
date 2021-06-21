@@ -29,14 +29,16 @@ class Group{
 			group: this
 		});
 
-		const newPos = isRandom ? createVector(random(c.r, sandbox.width - c.r),random(c.r, sandbox.height - c.r)) : createVector(x, y);
+		const newPos = isRandom ? createVector(random(c.r, sandbox.width - c.r), random(c.r, sandbox.height - c.r)) : createVector(x, y);
+
+		console.log(isRandom);
 
 		if( newPos.x + c.r > sandbox.width || newPos.x - c.r < 0 ||
 			newPos.y + c.r > sandbox.height || newPos.y - c.r < 0 )
 			return isRandom ? this.addEntity() : false;
 
-		for (let j = 0; j < sandbox.armiesL; j++) {
-			let m = sandbox.armies[j].members;
+		for (let j = 0; j < sandbox.groupsL; j++) {
+			let m = sandbox.groups[j].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
 				if( newPos.dist(b.pos) <= c.r + b.r ) return isRandom ? this.addEntity() : false;
