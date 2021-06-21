@@ -2,13 +2,13 @@ class TreeCutter extends Entity{
 	
 	constructor(opt={}){
 		opt.color = '#20bf80';
-		opt.size = 20;
-		opt.speed = 1;
 		super(opt);
-
+		
 		this.randCount = Math.floor(random(100));
+		this.speed(1);
+		this.size(20);
 		this.bag = 0;
-
+		
 		this.time = 0;
 		this.cutTime = 0;
 
@@ -25,19 +25,19 @@ class TreeCutter extends Entity{
 		switch (this.state) {
 				
 			case 'search':
-				this.setSpeed(1);
+				this.speed(1);
 				let nearTree = this.getNearEntity('tree', 30);
 				if(nearTree.length){
 					this.setColor('#ace32b');
 					this.follow(nearTree[0].entity);
 				}else{
-					this.setColor(this.group.color);
+					this.setColor(this.initialColor);
 					if(this.randCount % 50 == 0) this.rotateDirection(random(-0.7, 0.7));
 				}
 				break;
 
 			case 'cutting':
-				this.setSpeed(0);
+				this.speed(0);
 				this.cutTree(this.cuttingTree);
 				console.log('neee');
 				break;
@@ -54,8 +54,7 @@ class TreeCutter extends Entity{
 				this.state = 'cutting';
 				return;
 			case 'wall':
-				let an = Math.atan2( ( entity.pos.y - this.pos.y ) , ( entity.pos.x - this.pos.x ) );
-				this.setDirection( an - Math.PI );
+				this.follow(entity, true);
 				return;
 		}
 	}

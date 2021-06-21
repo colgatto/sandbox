@@ -13,38 +13,41 @@ class Entity{
 
 		this.id = opt.id || 'b' + random(0,999999999);
 		this.group = opt.group || null;
+		this.color = opt.color || 255;
+		this.initialColor = this.color;
 
 		this.pos = createVector(opt.x || width/2, opt.y || height/2);
 		this.prevPos = this.pos.copy();
-				
-		this.color = opt.color || random(sandboxConfig.defaultEntityColors);
-		this.d = sandboxConfig.defaultEntitySize;
-		this.r = this.d / 2;
 
 		this.drawPathOn = opt.drawPath || false;
+		this.addNewPath = false;
 		this.path = [ [ this.pos.x, this.pos.y ] ];
 		/**
-		this.path = [{
-			color: this.color,
-			point: [ this.pos.x, this.pos.y ]
-		}];
+		 this.path = [{
+			 color: this.color,
+			 point: [ this.pos.x, this.pos.y ]
+			}];
 		/**/
-		this.addNewPath = false;
 		
-		this.defaultNearDist = opt.nearDist || sandboxConfig.defaultEntityNearDist;
-
+		this.defaultNearDist = opt.nearDist || 20;
+		
 		this.velocity = p5.Vector.random2D();
-		this.setSpeed( typeof opt.speed == 'undefined' ? sandboxConfig.defaultEntitySpeed : opt.speed );
+		this.speed(0);
+		this.size(10);
 	}
 
-	setR(r){
-		this.r = r;
-		this.d = r*2;
+	size(size){
+		if(typeof size == 'undefined')
+			return this.d;
+		this.d = size;
+		this.r = size/2;
 	}
 
-	setSpeed(speed){
-		this.speed = speed;
-		this.velocity.setMag(this.speed);
+	speed(speed){
+		if(typeof speed == 'undefined')
+			return this.velocity.mag();
+		else
+			this.velocity.setMag(speed);
 	}
 
 	setColor(c){
@@ -199,9 +202,9 @@ class Entity{
 		}
 	}
 
-	follow(b){
+	follow(b, unfollow = false){
 		let an = Math.atan2( ( b.pos.y - this.pos.y ) , ( b.pos.x - this.pos.x ) );
-		this.setDirection( an );
+		this.setDirection( unfollow ? an - Math.PI : an );
 	}
 
 	moveToNearFree(){

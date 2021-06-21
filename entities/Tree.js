@@ -2,10 +2,10 @@ class Tree extends Entity{
 
 	constructor(opt={}){
 		opt.color = '#8a360a';
-		opt.size = 10;
-		opt.speed = 0;
 		super(opt);
 		this.bag = Math.floor(random(1,5));
+		this.speed(0);
+		this.size(10);
 	}
 	onInit(){
 		

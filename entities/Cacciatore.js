@@ -15,15 +15,15 @@ class Cacciatore extends Entity{
 			this.follow(n[0].entity);
 			this.setColor('#96101e');
 		}else{
-			this.setColor(this.group.color);
+			this.setColor(this.initialColor);
 			if(this.randCount % 100 == 0) this.rotateDirection(random(-45, 45));
 		}
 	}
 
 	onCollision(entity){
 		if(entity.group.name == 'prede'){
-			this.setR(this.r+2);
-			this.setSpeed(this.speed+0.03);
+			this.size(this.size() + 1);
+			this.speed(this.speed() + 0.03);
 			entity.destroy();
 			return;
 		}

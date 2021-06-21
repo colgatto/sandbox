@@ -3,14 +3,9 @@ class Group{
 	constructor(opt){
 		this.name = opt.name;
 
-		this.r = (opt.size || 20) / 2;
-
-		this.color = opt.color || 255;
 		this.count = opt.count || 1;
 		this.entityClass = opt.entityClass || null;
-		
-		this.speed = typeof opt.speed == 'undefined' ? sandboxConfig.defaultEntitySpeed : opt.speed;
-
+	
 		this.drawPathOn = opt.drawPath || false;
 		this.defaultNearDist = opt.nearDist || 10;
 
@@ -20,40 +15,36 @@ class Group{
 	nop(){}
 
 	generateNewId(){
-		let id = 'b' + Math.floor(random(0, 999999999));
-		while (this.members.map( v => v.id ).includes(id)) id = 'b' + Math.floor(random(0, 999999999));
+		let id = this.name + '_' + Math.floor(random(0, 999999999));
+		while (this.members.map( v => v.id ).includes(id)) id = this.name + '_' + Math.floor(random(0, 999999999));
 		return id;
 	}
 
 	addEntity(x=null,y=null){
 		let isRandom = x===null || y===null;
 
-		const newPos = isRandom ? createVector(random(this.r, sandbox.width - this.r),random(this.r, sandbox.height - this.r)) : createVector(x, y);
+		let id = this.generateNewId();
+		let c = new this.entityClass({
+			id: id,
+			group: this
+		});
 
-		if( newPos.x + this.r > sandbox.width || newPos.x - this.r < 0 ||
-			newPos.y + this.r > sandbox.height || newPos.y - this.r < 0 )
+		const newPos = isRandom ? createVector(random(c.r, sandbox.width - c.r),random(c.r, sandbox.height - c.r)) : createVector(x, y);
+
+		if( newPos.x + c.r > sandbox.width || newPos.x - c.r < 0 ||
+			newPos.y + c.r > sandbox.height || newPos.y - c.r < 0 )
 			return isRandom ? this.addEntity() : false;
 
 		for (let j = 0; j < sandbox.armiesL; j++) {
 			let m = sandbox.armies[j].members;
 			for (let i = 0; i < m.length; i++) {
 				let b = m[i];
-				if( newPos.dist(b.pos) <= this.r + b.r ) return isRandom ? this.addEntity() : false;
+				if( newPos.dist(b.pos) <= c.r + b.r ) return isRandom ? this.addEntity() : false;
 			}
 		}
 
-		let id = this.generateNewId();
-		let c = new this.entityClass({
-			id: id,
-			r: this.r,
-			color: this.color,
-			x: newPos.x,
-			y: newPos.y,
-			drawPath: this.drawPathOn,
-			speed: this.speed,
-			nearDist: this.defaultNearDist,
-			group: this
-		});
+		c.pos.x = newPos.x;
+		c.pos.y = newPos.y;
 
 		this.members.push( c );
 		return id;
