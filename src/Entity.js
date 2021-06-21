@@ -22,6 +22,8 @@ class Entity{
 		this.drawPathOn = opt.drawPath || false;
 		this.addNewPath = false;
 		this.path = [ [ this.pos.x, this.pos.y ] ];
+
+		this.stopped = false;
 		/**
 		 this.path = [{
 			 color: this.color,
@@ -46,8 +48,16 @@ class Entity{
 	speed(speed){
 		if(typeof speed == 'undefined')
 			return this.velocity.mag();
-		else
+		else if(speed == 0)
+			this.stop();
+		else{
+			this.stop(false);
 			this.velocity.setMag(speed);
+		}
+	}
+
+	stop(stopped = true){
+		this.stopped = stopped;
 	}
 
 	setColor(c){
@@ -134,6 +144,9 @@ class Entity{
 	}
 
 	updatePosition(){
+		
+		if(this.stopped) return;
+
 		let newPos = p5.Vector.add(this.pos, this.velocity);
 
 		if(this.drawPathOn && this.addNewPath){

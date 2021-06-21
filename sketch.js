@@ -4,7 +4,7 @@ const sandbox = new Sandbox(window.innerWidth, window.innerHeight );
 sandbox.addGroup({
 	name: 'tree',
 	entityClass: Tree,
-	count: 300
+	count: 70
 });
 
 sandbox.addGroup({
@@ -16,7 +16,7 @@ sandbox.addGroup({
 sandbox.addGroup({
 	name: 'wall',
 	entityClass: Wall,
-	count: 500
+	count: 20
 });
 
 ////////////////
